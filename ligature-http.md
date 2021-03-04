@@ -31,20 +31,43 @@ POST the following.
 
 `root/datasetName`
 
-With the following body and a type of "text/ligature".
+With the following body and a type of "application/json".
+NOTE: for the sake of simplicity all values are strings (unless it's a null Entity - see below),
+and the value-type attribute tells us how to parse it.
 
-`#23 attribute "Hello"`
+```json
+{
+  "entity": "23",
+  "attribute": "attribute",
+  "value": "Hello",
+  "value-type": "StringLiteral"
+}
+```
 
-To add a new entity use `_`
+To add a new entity use null
 
-`_ attribute "Hello"`
+```json
+{
+  "entity": null,
+  "attribute": "attribute",
+  "value": "Hello",
+  "value-type": "StringLiteral"
+}
+```
 
-If you put two `_`s then two new entities will be created.
+If you put two nulls then two new entities will be created.
 
-`_ attribute _`
+```json
+{
+  "entity": null,
+  "attribute": "attribute",
+  "value": null,
+  "value-type": "Entity"
+}
+```
 
-This is a "feature bug" since you won't run into needing to describe a new entity in terms of a relationship
-to itself often, and the Wander api allows for this.
+This is a "feature bug" since you won't run into needing to describe a new entity in terms of it have a
+relationship to itself often, and the Wander api allows for this.
 
 Returns:
 TODO
@@ -57,7 +80,32 @@ GET the following.
 All the attributes are optional.
 
 Returns:
-TODO
+
+A list of Statements crudely encoded into JSON.
+See explaination of encoding above in the "Add Statement to Dataset" section.
+
+```json
+[
+  {
+    "entity": "23",
+    "attribute": "attribute",
+    "value": "Hello",
+    "value-type": "StringLiteral"
+  },
+  {
+    "entity": "54",
+    "attribute": "attribute",
+    "value": "Cruel",
+    "value-type": "StringLiteral"
+  },
+  {
+    "entity": "753",
+    "attribute": "attribute",
+    "value": "World",
+    "value-type": "StringLiteral"
+  }
+]
+```
 
 ### Match Dataset with Range
 
