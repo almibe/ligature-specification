@@ -11,13 +11,9 @@ Currently, Ligature only has a handful of data types that are supported.
 A dataset in Ligature is a named set of statements.
 
 ### Statement
-A statement is tuple of an entity, an attribute, and a value.
+A statement is tuple of an entity, an attribute, a value, and a context.
 A value can be either an entity or a literal.
-
-### PersistedStatement
-When a Statement is saved into a knowledge graph a Persisted Statement is created.
-A Persisted Statement is a tuple of a Statement and a new Entity called a Context.
-This Context Entity uniquely identifies the given Statement and allows for making Statements about Statements.
+A context is an entity.
 
 ### Entity
 An entity is something we can make statements about.

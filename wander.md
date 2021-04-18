@@ -49,6 +49,30 @@ Methods on store
 * `store.query(datasetname) { **query code** }` - query a dataset w
   By default, scripts run in a read block, if you want to manipulate the store you must opt into a write block.
 
+### Data Types
+
+Wander comes with a set of predefined data types for working with Ligature.
+Currently, user defined types are not allowed (eventually this will be revisited).
+
+ * Integer - same as Ligature's type
+ * Floating Point - same as Ligature's type
+ * String - same as Ligature's type
+ * Bytes - same as Ligature's type
+ * Boolean - true/false (not found in Ligature itself)
+ * Entity - same as Ligature's type
+ * Attribute - same as Ligature's type
+ * Value - same as Ligature's type (Either an Entity, Integer, Floating Point, String, or Bytes)
+ * Option<T> - An optional value of a generic type, is either Some(T) or None
+ * List<T> - an ordered, indexable, immutable list of items of type T
+ * Set<T> - an unordered unique set of values of type T
+ * Pair<A,B> - A single heterogeneous pair of two values.
+ * Map<K,V> - A set of pairs.
+ * Stream<T> - a single use stream of values.
+
+### Traits
+
+
+
 ### Example code
 
 ```
