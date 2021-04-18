@@ -82,7 +82,7 @@ All the attributes are optional.
 Returns:
 
 A list of Statements crudely encoded into JSON.
-See explaination of encoding above in the "Add Statement to Dataset" section.
+See the explanation of encoding above in the "Add Statement to Dataset" section.
 
 ```json
 [
@@ -109,9 +109,9 @@ See explaination of encoding above in the "Add Statement to Dataset" section.
 
 ### Match Dataset with Range
 
-`root/?entity=##&attribute=##&value=##..##`
+`root/?entity=##&attribute=##&start-value=##&end-value=##`
 
-All the attributes are optional except the value attribute.
+All the attributes are optional except the start-value and end-value attributes.
 
 Returns:
 TODO
