@@ -42,7 +42,12 @@ then you can use the Context to say that a number of Statement belong to a group
 
 ### Using JSON to serialize Ligature data
 
-...
+Originally the Atomic API entirely used JSON.
+Eventually I decided that representing Statements with JSON was a pain, and I created the Lig serialization format.
+The main issues were the amount of Strings that had to be used throughout the serialization.
+Entities, Attributes, Contexts, Bytes, Strings, and Integers all had to be stored as Strings,
+and the type of Value had to be encoded as a String as well.
+Switching to Lig has so far be a large improvement, and it isn't a complicated format so porting should not be an issue.
 
 ### Allowing comments in Lig files
 
