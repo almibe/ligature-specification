@@ -40,7 +40,7 @@ that can be used for multiple things (either a unique pointer to a Statement OR 
 Instead, all Contexts must be unique now and if you want named graph like behavior
 then you can use the Context to say that a number of Statement belong to a group.
 
-### Using JSON to serialize Ligature data
+### Using JSON to serialize Ligature Statements
 
 Originally the Atomic API entirely used JSON.
 Eventually I decided that representing Statements with JSON was a pain, and I created the Lig serialization format.
