@@ -2,10 +2,10 @@
 
 ## Purpose
 
-This document exists as a catalog of some ideas I've experimented with and eventually decided against
-regarding Ligature.
+This document exists as a catalog of some ideas that have been experimented with and eventually were decided against
+regarding the design of Ligature.
 
-### Implement RDF
+### Implementing RDF
 
 At various times Ligature was much closer to being a standard RDF implementation.
 Since there already are multiple RDF implementations for most popular programming languages,
@@ -31,7 +31,7 @@ This however causes an issue when importing since you need to have a specific Co
 Adding a addPersistedStatement method would help but there would still be issues with accidental Context collisions.
 Moving to using UUIDs instead of a counter for generating ids is what helped with this problem the most.
 
-### Not enforcing that Contexts are unique in a Dataset
+### Allowing shared Contexts in a Dataset
 
 After getting rid of PersistedStatements, I thought for a while about allowing Contexts to be shared with multiple Statements.
 This is similar to RDF quads where multiple Statements can belong to the same named graph.
@@ -56,4 +56,9 @@ for things like describing an ontology or something else complex.
 However, Lig is not intended to be worked with directly often.
 I think it is good to be human-readable but editing by hand is not something I want to encourage.
 Editing Lig by hand is especially difficult since unique Contexts must be supplied for every Statement.
-Instead, tools or scripts should be used.
+Instead, tools or scripts should be used, and documentation should be encoded within the data model itself.
+
+### Embedding a 3rd party scripting language instead of implementing Wander
+
+...
+
