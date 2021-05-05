@@ -2,9 +2,21 @@
 
 ## Basics
 
+### Identifiers
+
+The definition of what a valid Identifier is used for both Entity identifiers and Attribute names.
+Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z,
+and is followed any number of characters that are valid in URLs.
+This will probably be revisited at some point but initially I think this will work well for most uses.
+Below is the regular expression that expresses what a valid Identifer is.
+
+```regexp
+[a-zA-Z_][a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
+```
+
 ### Entities
 
-Entities are represented wrapped in `<` and `>`
+Entities are represented by a valid Identifier that is wrapped in `<` and `>`
 
 ```
 <hello>
@@ -29,7 +41,7 @@ Values are represented in a number of ways depending on the type of the value.
  * Strings are wrapped in `"` and can contain new lines
  * Integers are numbers that don't contain a decimal point (limited to 64 bits)
  * Floating point numbers are numbers that contain a decimal point (64 bit IEEE 754)
- * Byte vectors starts with `0x` and may contain new lines
+ * Byte vectors starts with `0x` and contains only hex characters 0-9 and a-f
 
 ### Statements
 
