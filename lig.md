@@ -4,7 +4,7 @@
 
 ### Identifiers
 
-The definition of what a valid Identifier is used for both Entity identifiers and Attribute names.
+The definition of a valid Identifier is used for both Entity identifiers and Attribute names.
 Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z,
 and is followed any number of characters that are valid in URLs.
 This will probably be revisited at some point but initially I think this will work well for most uses.
