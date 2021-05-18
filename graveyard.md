@@ -58,7 +58,32 @@ I think it is good to be human-readable but editing by hand is not something I w
 Editing Lig by hand is especially difficult since unique Contexts must be supplied for every Statement.
 Instead, tools or scripts should be used, and documentation should be encoded within the data model itself.
 
+### Allowing wildcards in Lig files
+
+Wildcards were an idea I had to make lig files slightly more compact by allowing users to point to the value
+referenced in the Statement above.  For example
+
+```lig
+<a> @<test> <example> <context1>
+<b> _ _ <context2>
+```
+
+Is equivalent to
+
+```lig
+<a> @<test> <example> <context1>
+<b> @<test> <example> <context2>
+```
+
+For similar reasons for removing comments, I've decided to remove wildcards.
+For one thing it seemingly encourages people to work directly with lig which isn't something I want to encourage.
+The space-saving is pretty much irrelevant.
+It adds ordering dependencies to lig files as well as makes it difficult to copy and paste from lig files.
+
 ### Embedding a 3rd party scripting language instead of implementing Wander
 
-...
-
+Several projects similar to Ligature embed a 3rd party language (usually JavaScript, but I was also considering Lua).
+I've decided against this since I want Ligature to be easy to implement in multiple languages and any particular
+language may not have bindings for an embedded lanuage.
+Also sandboxing becomes a big issue with embedding 3rd party languages.
+Finally, by implementing a custom language primitives for Ligature can be given first class support.

@@ -4,15 +4,7 @@
 
 ### Identifiers
 
-The definition of a valid Identifier is used for both Entity identifiers and Attribute names.
-Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z,
-and is followed any number of characters that are valid in URLs.
-This will probably be revisited at some point but initially I think this will work well for most uses.
-Below is the regular expression that expresses what a valid Identifer is.
-
-```regexp
-[a-zA-Z_][a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
-```
+Identifier in Lig follow the same rules as Ligature proper see [ligature.md](ligature.md#identifiers).
 
 ### Entities
 
@@ -38,7 +30,7 @@ Attributes are represented similarly to Entities but are prefixed with `@`
 
 Values are represented in a number of ways depending on the type of the value.
  * Entities are represented the same way as above
- * Strings are wrapped in `"` and can contain new lines
+ * Strings are wrapped in `"` and follows the definition of Strings from JSON
  * Integers are numbers that don't contain a decimal point (limited to 64 bits)
  * Floating point numbers are numbers that contain a decimal point (64 bit IEEE 754)
  * Byte vectors starts with `0x` and contains only hex characters 0-9 and a-f
@@ -48,23 +40,24 @@ Values are represented in a number of ways depending on the type of the value.
 Statements written in Lig are full Ligature Statements.
 So they contain an Entity, an Attribute, a Value, and a Context.
 Contexts are just Entities that represent a Statement.
+Note that Contexts must be unique for a given dataset.
 
-### Wildcards
+## Syntax
 
-Wildcards are represented by `_` and mean to use the value in the position above in this position for this Statement
-
-## Example
-
-```
-<thisIsAnEntity> @<thisIsAnAttribute> <thisIsAnEntityAsAValue> <context1>
-_ @<thisIsAnotherAttribute> 23413123 <context2>
-_ _ _ <context3>
-```
-
-Is the same as:
+Below is some pseudo-ebnf for lig.
+At some point I need to make this a little more formal and follow ebnf more strictly.
 
 ```
-<thisIsAnEntity> @<thisIsAnAttribute> <thisIsAnEntityAsAValue> <context1>
-<thisIsAnEntity> @<thisIsAnotherAttribute> 23413123 <context2>
-<thisIsAnEntity> @<thisIsAnotherAttribute> 23413123 <context3>
+ligDocument       ::= (completeStatement statement*)*
+completeStatement ::= entity attribute value entity
+statement         ::= ENTITY ATTRIBUTE value ENTITY
+value             ::= ENTITY | FLOAT_LITERAL | INTEGER_LITERAL | STRING_LITERAL | BYTES_LITERAL
+
+ENTITY          ::= '<' IDENTIFIER '>'
+ATTRIBUTE       ::= '@<' IDENTIFIER '>'
+IDENTIFIER      ::= [a-zA-Z_][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;%=]*
+FLOAT_LITERAL   ::= [0-9]+ '.' [0-9]+
+INTEGER_LITERAL ::= [0-9]+
+STRING_LITERAL  ::= "(([^\x00-\x1F\"\\]|\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})*)"
+BYTES_LITERAL   ::= '0x' ([0-9a-f]{2})+
 ```
