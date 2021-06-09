@@ -7,8 +7,28 @@ Ligature is an open source knowledge graph.
 Ligature tries to have a very minimal data model.
 Currently, Ligature only has a handful of data types that are supported.
 
-### Dataset
-A Dataset in Ligature is a named set of Statements.
+```
+Dataset { dataset_name: DatasetName, statements: Statement* }
+DatasetName { name: String }
+Entity { id: String }
+Attribute { name: String }
+Value {
+    Entity { value: Entity } |
+    StringLiteral { value: String } |
+    IntegerLiteral { value: i64 } |
+    FloatLiteral { value: f64 } |
+}
+Statement { entity: Entity, attribute: Attribute, value: Value, context: Entity }
+```
+
+### Datasets
+A dataset in Ligature is a named collection of statements.
+Valid dataset names are currently groups of characters that include `_ a-z A-Z 0-9` that can't start with a number and that are separated by single `/`.
+This naming convention is likely to change.
+Even though dataset names might seem like they nest (`test/test` looks like it is under `test`) this isn't the case.
+A dataset is its own unique entity and stands alone from all other datasets.
+Also, datasets are very different from named graphs in RDF.
+For example with named graphs blank nodes are shared across graphs in a dataset, but in datasets blank nodes are unique to their dataset.
 
 ### Statement
 A Statement is tuple of an Entity, an Attribute, a Value, and a Context.
@@ -40,7 +60,8 @@ An Attribute is a named relationship between an Entity and a Value.
 A Value can be either a Literal or an Entity.
 
 ### Literals
-Ligature supports four kinds of Literals currently.
+Literals in Ligature represent an immutable value.
+Several types are currently supported with the possibility to add more.
 
 #### String Literal
 A UTF-8 encoded string.
@@ -57,5 +78,6 @@ An array of bytes.
 ### Context
 The last part of a Statement is the Context.
 The Context is just an Entity that uniquely represents a Statement within a Dataset.
+They allow you to make Statements about Statements easily.
 In practice a Context will not have a meaningful name and will usually consist of a namespaced UUID.
 For example, `my:dataset:66b42eac-c894-4c7b-af3a-aff367a6ecb9`.
