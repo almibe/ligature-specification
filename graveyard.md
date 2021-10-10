@@ -84,6 +84,20 @@ It adds ordering dependencies to lig files as well as makes it difficult to copy
 
 Several projects similar to Ligature embed a 3rd party language (usually JavaScript, but I was also considering Lua).
 I've decided against this since I want Ligature to be easy to implement in multiple languages and any particular
-language may not have bindings for an embedded lanuage.
+language may not have bindings for an embedded language.
 Also sandboxing becomes a big issue with embedding 3rd party languages.
 Finally, by implementing a custom language primitives for Ligature can be given first class support.
+
+### Having Separate Types for Entities and Attributes
+
+For a while Ligature had separate types for both Entities and Attributes.
+This seemed like overkill and would make working on SOL harder.
+Instead, I've decided to use have an Identifier type.
+
+### Supporting Floating Point Numbers Natively In Ligature
+
+Floating Point values were an original literal type.
+After working on the Rust implementation and thinking about it, I realized that I should put off supporting Floating Point numbers.
+How they are sorted or compared is very much in the air and can be context-sensitive.
+For most of my initial case studies I don't need Floating Point numbers and where I need them I can encode them as Bytes.
+This will be revisited I'm sure but for now I'm just leaving them out.

@@ -4,24 +4,121 @@ Wander is an experimental scripting language for working with knowledge graphs i
 Wander tries to combine ideas from modern general purpose languages (mainly Kotlin, Scala, and Rust)
 while focusing just on what's needed for working with knowledge graphs instead of being a general purpose language.
 
-## Introduction
-
-### Goals of Wander
- - be a small and easy to learn language for most people with any scripting background and some (knowledge of|interest in) linked data
+## Goals of Wander
+ - be a small and easy to learn language for most people with any scripting background and some interest in knowledge graphs
  - make heavy use of streams (no manual loops), expressions, and pattern matching to solve problems
  - support all features SPARQL that make sense outside of the realm of RDF
  - support immutability and functional concepts
  - provide a variety of options for handling the output of a script (tables, json, csv, visualizations)
 
+## Types
+
+Ligature is different from many other languages because it supports only a set number of types.
+User defined types aren't supported since the main goal of Wander is to work with Ligature's knowledge graphs.
+For the most part types are borrowed from Ligature and only a couple of new types are added.
+
+### Types from Ligature
+
+ * Integer - a signed 64-bit integer
+ * String - a UTF-8 string
+ * Byte Array - an array of bytes
+ * Identifier
+ * Statement
+
+### Wander types not in Ligature
+
+ * Float - a 64-bit IEEE-754 floating point number
+ * Boolean
+ * Function
+
+## Names
+
+Names in Wander are used for variable names in scripts.
+Variable names in Wander are used for local variables, top level variables, parameters, and function names.
+A valid identifier starts with a-z, A-Z, or _ and then includes zero of more characters from the same set or numbers.
+
+## Comments
+
+Comment in Wander use the # symbol and comments run to the end of the current line.
+
+`let x = 5 # bind the value 5 to x`
+
+## Let Statements
+
+Let statements allow a user to bind a value to a name within the current scope.
+
+`let x = 5`
+
+## Expressions
+
+Everything other than let statements in Wander can be viewed as an expression.
+By this I mean they result in a value.
+
+## Scopes
+
+In Wander a scope is wrapped in `{}` and acts as an expression.
+Scopes are also used for scoping variables.
+See a small example below.
+
+```
+let x = 5 # x is now 5 at the top scope
+
+let y = { # create a new scope
+  let x = 6 # in this scope x is 6
+  x # return 6
+} # end scope
+
+y # this will return 6
+
+```
+
+## Operators
+
+Currently, Wander doesn't really support many operators.
+It's basically just the = used in let statements.
+This might change but for now I'm trying to avoid them.
+
+### Boolean Functions
+
+| Name | Example                | Result |
+| ---- | ---------------------- | ------ |
+| not  | not(true)              | false  |
+| and  | and(true, false, true) | false  |
+| or   | or(true, false, true)  | true   |
+
+### Integer Functions
+
+### Floating Point Functions
+
+### String Functions
+
+## Conditionals
+
+### If Expressions
+
+### Match Expressions
+
+## Functions
+
+## Standard Library
+
+
+
+<hr>
+
+Note: everything below this line is pretty old and outdated and needs to be viewed/updated/deleted/merged into
+the above document.
+
+<hr>
+
 ### Relation to Scala/Kotlin/Rust/Modern Languages In General
  - use `let` to define immutable variables (mutable variables are not supported)
  - no types needed for declarations, but function params and returns need types
  - functions declared via lambdas
- - when expressions for control flow (there are no plans are in place to support other control flow mechanisms)
+ - if and when expressions for control flow
  - denote ranges with `..`
  - support for `in` and `!in` for working with ranges and collections
  - support for `is` and `!is` for checking types
- - support for single line C-style comments `//this is a comment`
 
 ### Unique-ish concepts
  - In-memory graphs
