@@ -10,15 +10,14 @@ Currently, Ligature only has a handful of data types that are supported.
 ```
 Dataset { dataset_name: DatasetName, statements: Statement* }
 DatasetName { name: String }
-Entity { id: String }
-Attribute { name: String }
+Identifier { id: String }
 Value {
-    Entity { value: Entity } |
+    Identifier { value: Identifier } |
     StringLiteral { value: String } |
     IntegerLiteral { value: i64 } |
     FloatLiteral { value: f64 } |
 }
-Statement { entity: Entity, attribute: Attribute, value: Value, context: Entity }
+Statement { entity: Identifier, attribute: Identifier, value: Value, context: Identifier }
 ```
 
 ### Datasets
@@ -44,7 +43,7 @@ This will probably be revisited at some point but initially I think this will wo
 Below is the regular expression that expresses what a valid Identifier is.
 
 ```regexp
-[a-zA-Z_][a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
+[a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
 ```
 
 ### Entity
@@ -69,15 +68,12 @@ A UTF-8 encoded string.
 #### Integer Literal
 A 64-bit signed integer.
 
-#### Float Literal
-An IEEE-754 64-bit floating-point number.
-
 #### Bytes Literal
 An array of bytes.
 
 ### Context
 The last part of a Statement is the Context.
-The Context is just an Entity that uniquely represents a Statement within a Dataset.
+The Context is just an Identifier that uniquely represents a Statement within a Dataset.
 They allow you to make Statements about Statements easily.
 In practice a Context will not have a meaningful name and will usually consist of a namespaced UUID.
 For example, `my:dataset:66b42eac-c894-4c7b-af3a-aff367a6ecb9`.
