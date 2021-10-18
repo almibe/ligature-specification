@@ -15,7 +15,7 @@ Value {
     Identifier { value: Identifier } |
     StringLiteral { value: String } |
     IntegerLiteral { value: i64 } |
-    FloatLiteral { value: f64 } |
+    ByteArray { value: [u8] }
 }
 Statement { entity: Identifier, attribute: Identifier, value: Value, context: Identifier }
 ```
