@@ -6,6 +6,7 @@ Status:  All these docs are still under heavy development and very likely to cha
 This documentation is split up into multiple parts.
  - [ligature.md](ligature.md) - this is the main specification for Ligature itself
  - [lig.md](lig.md) - a specification for a simple serialization format for Ligature named Lig
+ - [dlig.md](dlig.md) - a text format that is a superset of Lig that focuses on user input
  - [ligature-http.md](ligature-http.md) - a specification for working with Ligature via http
  - [wander.md](wander.md) - a specification for the Wander scripting language, that is used to interact with Ligature
  - [graveyard.md](graveyard.md) - a list of some design decisions that were decided against and the reasoning behind them
