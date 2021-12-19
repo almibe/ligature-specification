@@ -80,6 +80,8 @@ For one thing it seemingly encourages people to work directly with lig which isn
 The space-saving is pretty much irrelevant.
 It adds ordering dependencies to lig files as well as makes it difficult to copy and paste from lig files.
 
+*Note: This is being added to a variation of Lig called DLig*
+
 ### Embedding a 3rd party scripting language instead of implementing Wander
 
 Several projects similar to Ligature embed a 3rd party language (usually JavaScript, but I was also considering Lua).
@@ -101,3 +103,12 @@ After working on the Rust implementation and thinking about it, I realized that 
 How they are sorted or compared is very much in the air and can be context-sensitive.
 For most of my initial case studies I don't need Floating Point numbers and where I need them I can encode them as Bytes.
 This will be revisited I'm sure but for now I'm just leaving them out.
+
+### Graph datatype in Wander
+
+At one point I was planning on adding a datatype to Wander call Graph that was going to basically be a non-transaction,
+in-memory Ligature instance.
+I've decided to drop this for now since I really can't think of very many good use cases for it, but I'm willing
+to revisit this decision.
+Its introduction could also cause since issue since Wander doesn't have function overloading right now,
+so some of the function names would have to be longer or I'd need to implement function overloading.
