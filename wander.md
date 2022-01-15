@@ -1,14 +1,14 @@
 # Wander
 
-Wander is an experimental scripting language for working with knowledge graphs in Ligature.
-Wander tries to combine ideas from modern general purpose languages (mainly Kotlin, Scala, and Rust)
+Wander is a scripting language for working with knowledge graphs in Ligature.
+Wander tries to combine ideas from modern general purpose languages (mainly Rust, Scala, and Koka)
 while focusing just on what's needed for working with knowledge graphs instead of being a general purpose language.
 
 ## Goals of Wander
  - be a small and easy to learn language for most people with any scripting background and some interest in knowledge graphs
  - make heavy use of streams (no manual loops), expressions, and pattern matching to solve problems
  - support all features SPARQL that make sense outside of the realm of RDF
- - support immutability and functional concepts
+ - support immutability and functional concepts while not worrying about be purely functional
  - provide a variety of options for handling the output of a script (tables, json, csv, visualizations)
 
 ## Types
@@ -77,6 +77,11 @@ y # this will return 6
 Currently, Wander doesn't really support many operators.
 It's basically just the = used in let statements.
 This might change but for now I'm trying to avoid them.
+This means that everywhere in a normal C-style language you'd use an operator in Wander you call a function.
+
+`1 + 2`
+
+`add(1 2)`
 
 ### Boolean Functions
 
