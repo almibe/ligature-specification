@@ -28,7 +28,6 @@ would become the following in Lig
 ```
 
 Using a copy character in the first Statement of a file will result in an error.
-Also using a copy character in the Context position will result in an error.
 
 ### Prefix Shortening
 

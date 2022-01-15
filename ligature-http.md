@@ -1,5 +1,5 @@
 # Ligature HTTP API
-Although implementations may provide embeddable libraries,
+Although implementations may provide emendable libraries,
 the main way Ligature is intended to be interacted with is via HTTP.
 Ligature supports two different APIs for working with HTTP.
 The first is called Atomic, and it performs a single action per HTTP request.
@@ -34,8 +34,8 @@ POST the following.
 With the following body and a type of "application/lig".
 
 ```lig
-<entity> @<attribute> 0xCAFE <context>
-_ _ "Yolo" <context2>
+<entity> @<attribute> 0xCAFE
+_ _ "Yolo"
 ```
 
 Returns:
@@ -54,9 +54,9 @@ Returns:
 A list of Statements encoded into Lig.
 
 ```lig
-<entity23> @<attribute> "Hello" <context124234>
-<entity54> @<attribute> "Cruel" <context7125346>
-<entity753> @<attribute> "World" <context534563>
+<entity23> @<attribute> "Hello"
+<entity54> @<attribute> "Cruel"
+<entity753> @<attribute> "World"
 ```
 
 ### Match Dataset with Range
@@ -70,9 +70,9 @@ Returns:
 A list of Statements encoded into Lig.
 
 ```lig
-<entity23> @<attribute> "Hello" <context124234>
-<entity54> @<attribute> "Cruel" <context7125346>
-<entity753> @<attribute> "World" <context534563>
+<entity23> @<attribute> "Hello"
+<entity54> @<attribute> "Cruel"
+<entity753> @<attribute> "World"
 ```
 
 ## Wander API

@@ -17,7 +17,7 @@ Value {
     IntegerLiteral { value: i64 } |
     ByteArray { value: [u8] }
 }
-Statement { entity: Identifier, attribute: Identifier, value: Value, context: Identifier }
+Statement { entity: Identifier, attribute: Identifier, value: Value }
 ```
 
 ### Datasets
@@ -30,9 +30,8 @@ Also, datasets are very different from named graphs in RDF.
 For example with named graphs blank nodes are shared across graphs in a dataset, but in datasets blank nodes are unique to their dataset.
 
 ### Statement
-A Statement is tuple of an Entity, an Attribute, a Value, and a Context.
+A Statement is tuple of an Entity, an Attribute, and a Value.
 A Value can be either an Entity or a Literal.
-A Context is an Entity that uniquely identifies a Statement within a Dataset.
 
 ### Identifiers
 
@@ -70,10 +69,3 @@ A 64-bit signed integer.
 
 #### Bytes Literal
 An array of bytes.
-
-### Context
-The last part of a Statement is the Context.
-The Context is just an Identifier that uniquely represents a Statement within a Dataset.
-They allow you to make Statements about Statements easily.
-In practice a Context will not have a meaningful name and will usually consist of a namespaced UUID.
-For example, `my:dataset:66b42eac-c894-4c7b-af3a-aff367a6ecb9`.

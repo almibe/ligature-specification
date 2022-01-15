@@ -28,9 +28,7 @@ Values are represented in a number of ways depending on the type of the value.
 ### Statements
 
 Statements written in Lig are full Ligature Statements.
-So they contain an Entity, an Attribute, a Value, and a Context.
-Contexts are just Entities that represent a Statement.
-Note that Contexts must be unique for a given dataset.
+So they contain an Entity, an Attribute, and a Value.
 
 ## Syntax
 
@@ -39,7 +37,7 @@ At some point I need to make this a little more formal and follow ebnf more stri
 
 ```
 ligDocument       ::= statement*
-statement         ::= IDENTIFIER IDENTIFIER value IDENTIFIER
+statement         ::= IDENTIFIER IDENTIFIER value
 value             ::= IDENTIFIER | INTEGER_LITERAL | STRING_LITERAL | BYTES_LITERAL
 
 IDENTIFIER      ::= <[a-zA-Z_][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;%=]*>
