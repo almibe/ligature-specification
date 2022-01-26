@@ -137,20 +137,34 @@ Below is an example of representing projects with main contacts.
 It's a little convoluted but I think it represents the basic change well.
 
 ```
-<project:1> <project:contact> "Bob" <context:1>
-<context:1> <date> "1999/07/13" <context:2>
-<project:1> <project:contact> "Robin" <context:3>
-<context:3> <date> "2020/07/12" <context:4>
+<person:1> <name> "Bob" <context:1>
+<person:1> <email> "bob@fake.com" <context:2>
+<person:1> <name> "Robin" <context:3>
+<person:1> <email> "robin@fake.com" <context:4>
+<project:1> <project:contact> <person:1> <context:5>
+<context:5> <date> "1999/07/13" <context:6>
+<project:1> <project:contact> <person:2> <context:7>
+<context:7> <date> "2020/07/12" <context:8>
 ```
 
+32 Nodes
+
 ```
+<person:1> <name> "Bob"
+<person:1> <email> "bob@fake.com"
+<person:1> <name> "Robin"
+<person:1> <email> "robin@fake.com"
 <project:1> <project:contact> <contactEvent:1>
-<contactEvent:1> <name> "Bob"
+<contactEvent:1> <name> <person:1>
 <contactEvent:1> <date> "1999/07/13"
 <project:1> <project:contact> <contactEvent:2>
-<contactEvent:2> <name> "Rob"
+<contactEvent:2> <name> <person:2>
 <contactEvent:2> <date> "2020/07/12"
 ```
 
-It's more verbose in this example but it isn't hard to come up with examples where it isn't (basically anything more complex than this).
-But now every node has value, in the first example `context:2` and `context:4` are never referenced.
+30 Nodes
+
+Ideally I'd also have events for assigning names and email addresses to people and not use strings for dates, but this is an example.
+What I want to point out is that every node in the second example is important while in the first many aren't referenced.
+Also adding metadata about name and email assignments would result in just as many unused nodes.
+In realistic datasets I feel like the burden of contexts would be even worse.
