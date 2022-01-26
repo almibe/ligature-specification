@@ -81,6 +81,7 @@ The space-saving is pretty much irrelevant.
 It adds ordering dependencies to lig files as well as makes it difficult to copy and paste from lig files.
 
 *Note: This is being added to a variation of Lig called DLig*
+*Note: The example above uses the removed attribute syntax with the `@` character.*
 
 ### Embedding a 3rd party scripting language instead of implementing Wander
 
@@ -112,3 +113,43 @@ I've decided to drop this for now since I really can't think of very many good u
 to revisit this decision.
 Its introduction could also cause since issue since Wander doesn't have function overloading right now,
 so some of the function names would have to be longer or I'd need to implement function overloading.
+
+### Having a fourth `Context` element in Statements
+
+From the beginning of Ligature I really wanted it to be easy to make Statements about Statements.
+My first approach to this was adding a fourth element to all Statements called the `Context`.
+As I've gotten further along in developing Ligature I've come to the conclusion that the `Context` isn't needed and actually makes a lot of thing worse.
+
+Basically:
+
+ * It makes representing Ligature as a graph difficult and very noisy.
+ * It forces you to make an identifier for all Statements even when you never plan on using them.
+ * Makes interop with other graph-like data structures more difficult.
+ * It doesn't really work as well I thought in practice
+  * If you are assigning multiple attributes at once and they are intended to be grouped together you have to apply metadata to all of them separately or create a metadata node (which has its own context).
+ * Typing contexts is weird (both physically and applying classes to contexts)
+ * Might be a weird idea to explain to people?
+ * I haven't even started to think about how contexts work with schema and ontologies (probably not well)
+
+Instead I plan on exploring using concepts from event sourcing to do this type of work.
+Below is an example of representing projects with main contacts.
+It's a little convoluted but I think it represents the basic change well.
+
+```
+<project:1> <project:contact> "Bob" <context:1>
+<context:1> <date> "1999/07/13" <context:2>
+<project:1> <project:contact> "Robin" <context:3>
+<context:3> <date> "2020/07/12" <context:4>
+```
+
+```
+<project:1> <project:contact> <contactEvent:1>
+<contactEvent:1> <name> "Bob"
+<contactEvent:1> <date> "1999/07/13"
+<project:1> <project:contact> <contactEvent:2>
+<contactEvent:2> <name> "Rob"
+<contactEvent:2> <date> "2020/07/12"
+```
+
+It's more verbose in this example but it isn't hard to come up with examples where it isn't (basically anything more complex than this).
+But now every node has value, in the first example `context:2` and `context:4` are never referenced.
