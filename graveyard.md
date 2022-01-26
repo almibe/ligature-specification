@@ -81,6 +81,7 @@ The space-saving is pretty much irrelevant.
 It adds ordering dependencies to lig files as well as makes it difficult to copy and paste from lig files.
 
 *Note: This is being added to a variation of Lig called DLig*
+
 *Note: The example above uses the removed attribute syntax with the `@` character.*
 
 ### Embedding a 3rd party scripting language instead of implementing Wander
