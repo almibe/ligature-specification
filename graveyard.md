@@ -139,8 +139,8 @@ It's a little convoluted but I think it represents the basic change well.
 ```
 <person:1> <name> "Bob" <context:1>
 <person:1> <email> "bob@fake.com" <context:2>
-<person:1> <name> "Robin" <context:3>
-<person:1> <email> "robin@fake.com" <context:4>
+<person:2> <name> "Robin" <context:3>
+<person:2> <email> "robin@fake.com" <context:4>
 <project:1> <project:contact> <person:1> <context:5>
 <context:5> <date> "1999/07/13" <context:6>
 <project:1> <project:contact> <person:2> <context:7>
@@ -152,8 +152,8 @@ It's a little convoluted but I think it represents the basic change well.
 ```
 <person:1> <name> "Bob"
 <person:1> <email> "bob@fake.com"
-<person:1> <name> "Robin"
-<person:1> <email> "robin@fake.com"
+<person:2> <name> "Robin"
+<person:2> <email> "robin@fake.com"
 <project:1> <project:contact> <contactEvent:1>
 <contactEvent:1> <name> <person:1>
 <contactEvent:1> <date> "1999/07/13"
