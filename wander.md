@@ -100,10 +100,12 @@ This means that everywhere in a normal C-style language you'd use an operator in
 ## Conditionals
 
 ### If Expressions
-
+ 
 ### Match Expressions
 
 ## Functions
+
+
 
 ## Standard Library
 
@@ -116,15 +118,6 @@ the above document.
 
 <hr>
 
-### Relation to Scala/Kotlin/Rust/Modern Languages In General
- - use `let` to define immutable variables (mutable variables are not supported)
- - no types needed for declarations, but function params and returns need types
- - functions declared via lambdas
- - if and when expressions for control flow
- - denote ranges with `..`
- - support for `in` and `!in` for working with ranges and collections
- - support for `is` and `!is` for checking types
-
 ### Unique-ish concepts
  - In-memory graphs
   - a new data structure that represents a graph in-memory
@@ -133,44 +126,6 @@ the above document.
 
 example of a problem that is hard to solve in sparql that should be easier to solve in Wander
  - https://web.archive.org/web/20150516154515/http://answers.semanticweb.com:80/questions/9842/how-to-limit-sparql-solution-group-size
-
-built-in functions
- - collection/stream functions
- - SPARQL's functions that make sense (need to make a list)
- - `store.dataset(name)` - get a single dataset -- TODO probably delete this?
- - `store.datasets()` - get all datasets
- - `store.datasets(prefix)` - get datasets that start with prefix
- - `store.datasets(start, stop)` - get dataset in range
- - `store.createDataset(name)` - create a dataset
- - `store.deleteDataset(name)` - delete a dataset
- - `store.query(datasetname) { **query code** }` - query a dataset w
-
-By default, scripts run in a read block, if you want to manipulate the store you must opt into a write block.
-
-### Data Types
-
-Wander comes with a set of predefined data types for working with Ligature.
-Currently, user defined types are not allowed (eventually this will be revisited).
-
- * Integer - same as Ligature's type
- * Floating Point - same as Ligature's type
- * String - same as Ligature's type
- * Bytes - same as Ligature's type
- * Boolean - true/false (not found in Ligature itself)
- * Entity - same as Ligature's type
- * Attribute - same as Ligature's type
- * Value - same as Ligature's type (Either an Entity, Integer, Floating Point, String, or Bytes)
- * Option<T> - An optional value of a generic type, is either Some(T) or None
- * List<T> - an ordered, indexable, immutable list of items of type T
- * Set<T> - an unordered unique set of values of type T
- * Pair<A,B> - A single heterogeneous pair of two values.
- * Map<K,V> - A set of pairs.
- * Stream<T> - a single use stream of values.
-
-### When Expressions
-
-A `when` expression is the sole control flow mechanism in Wander.
-It is based on the `when` expression from Kotlin.
 
 ### Functions
 
@@ -240,12 +195,6 @@ when {
 }
 ```
 
-Below is some old text from the https://github.com/almibe/wander project that needs reviewed/merged into the above text.
-Most of it is problem outdated.
-
-In Wander everything is a function call, a reference to a symbol, or a literal except for the when operator.
-Supplied functions and symbol references appear as plain text while user defined functions and references are prefixed with `$`.
-
 ### Method syntax
 When you use a period in Wander you invoke method calling.
 This means that the first argument to the function you are calling is the result of the last expression.
@@ -259,13 +208,3 @@ built-in functions
 
 `$` represents the dataset a script is being ran against.
 When running against the entire store
-
-Methods on store (this will probably change since I'm not sure I want methods)
-* `store.dataset(name)` - get a single dataset -- TODO probably delete this?
-* `store.datasets()` - get all datasets
-* `store.datasets(prefix)` - get datasets that start with prefix
-* `store.datasets(start, stop)` - get dataset in range
-* `store.createDataset(name)` - create a dataset
-* `store.deleteDataset(name)` - delete a dataset
-* `store.query(datasetname) { **query code** }` - query a dataset w
-  By default, scripts run in a read block, if you want to manipulate the store you must opt into a write block.
