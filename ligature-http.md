@@ -4,7 +4,7 @@ the main way Ligature is intended to be interacted with is via HTTP.
 Note in the URLs snippets below anything wrapped in `{}` is user defined.
 
 ### Get list of Datasets
-GET `/datasets/`
+GET `/datasets`
 
 ### Create Dataset
 POST `/datasets/{datasetName}`
@@ -31,6 +31,19 @@ If Dataset doesn't exist...
 If deletion failed...
 
 If deletion succeeded...
+
+### Get all Statements from Dataset
+GET `/datasets/{datasetName}/statements`
+
+Returns:
+
+If invalid Dataset name...
+
+If Dataset doesn't exist...
+
+If fetch failed...
+
+If fetch succeeded...
 
 ### Add Statements to Dataset
 POST `/datasets/{datasetName}/statements`

@@ -72,7 +72,30 @@ y # this will return 6
 
 ```
 
-## Operators
+## Closures
+
+Wander supports closures.
+Closures are treated like a normal value and can be assigned to a variable, passed to a function, or returned from a function.
+A very basic example is:
+
+```
+let five = () -> Integer { 5 }
+five()
+```
+
+This will return the Integer 5.
+
+let middle = (first:Any second:Any third:Any) -> Any { second }
+
+
+## A Note on Functions
+
+Wander doesn't currently support "normal" function declarations.
+Right now only closures are supported.
+I'm currently going to see how far only supporting closures get us, and if they are too limited functions will be added.
+The main thing that functions will add will be overloading, but there are also other ways to potentially handle that.
+
+## A Note on Operators
 
 Currently, Wander doesn't really support many operators.
 It's basically just the = used in let statements.
@@ -83,13 +106,21 @@ This means that everywhere in a normal C-style language you'd use an operator in
 
 `add(1 2)`
 
+or
+
+`1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9`
+
+`add(1 2 3 4 5 6 7 8 9)`
+
+But the idea is that you normally won't do this but pass functions to other functions.
+
 ### Boolean Functions
 
-| Name | Example                | Result |
-| ---- | ---------------------- | ------ |
-| not  | not(true)              | false  |
-| and  | and(true, false, true) | false  |
-| or   | or(true, false, true)  | true   |
+| Name | Example              | Result |
+| ---- | -------- ----------- | ------ |
+| not  | not(true)            | false  |
+| and  | and(true false true) | false  |
+| or   | or(true false true)  | true   |
 
 ### Integer Functions
 
@@ -103,7 +134,6 @@ This means that everywhere in a normal C-style language you'd use an operator in
  
 ### Match Expressions
 
-## Functions
 
 
 

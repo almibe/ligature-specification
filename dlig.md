@@ -33,11 +33,16 @@ Using a copy character in the first Statement of a file will result in an error.
 
 Ligature's approach to prefix shortening is similar to Turtle with some syntax changes, and currently there is no support for base.
 At the top of a DLig file you can list a several prefixes.
+Then when you go to use a prefix you simply don't wrap the Entity in `<>`'s and separate the prefix from the
+suffix with a `:`.
+Prefix names must be valid Identifiers but they can't contain `:`.
 
 ```
 prefix long = this:is:pretty:long:
 prefix longer = this:is:actually:longer:
-prefix very:short = a:
+prefix short = a:
+
+long:5 
 
 ```
 
