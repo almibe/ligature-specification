@@ -168,3 +168,10 @@ Ideally I'd also have events for assigning names and email addresses to people a
 What I want to point out is that every node in the second example is important while in the first many aren't referenced.
 Also adding metadata about name and email assignments would result in just as many unused nodes.
 In realistic datasets I feel like the burden of contexts would be even worse.
+
+### Having Two Text-Based Serialization Formats
+
+For a while I had two different text-based serialization formats.
+The first was very basic and focused on just representing Statements as simply as possible.
+The other allowed for repeating Entities and Attributes easily, generating random IDs, and allowed using prefixes to shorten input.
+I've decided to combine the two formats for the sake of simplicity.

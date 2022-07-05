@@ -36,19 +36,19 @@ A Value can be either an Entity or a Literal.
 ### Identifiers
 
 The definition of a valid Identifier is used for both Entity identifiers and Attribute names.
-Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z,
+Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z or 0-9,
 and is followed any number of characters that are valid in URLs.
 This will probably be revisited at some point but initially I think this will work well for most uses.
 Below is the regular expression that expresses what a valid Identifier is.
 
 ```regexp
-[a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
+[a-zA-Z0-9_][a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
 ```
 
 ### Entity
 An Entity is something we can make Statements about.
 An Entity by itself is not very interesting,
-and we know nothing meaningful about an Entity by itself except for its identifier.
+and we know nothing meaningful about an Entity by itself except for its Identifier.
 We can only know things about Entities based on the Statements that exist that describe that Entity.
 
 ### Attribute
