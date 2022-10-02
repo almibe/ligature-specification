@@ -48,7 +48,7 @@ If fetch succeeded...
 ### Add Statements to Dataset
 POST `/datasets/{datasetName}/statements`
 
-With the following body and a content type of "application/vnd.dlig".
+With the following body and a content type of "application/vnd.lig".
 
 ```lig
 <entity> <attribute> 0xCAFE
@@ -68,7 +68,7 @@ If addition succeeded...
 ### Delete Statements from Dataset
 DELETE `/datasets/{datasetName}/statements`
 
-With the following body and a content type of "application/vnd.dlig".
+With the following body and a content type of "application/vnd.lig".
 
 ```lig
 <entity> <attribute> 0xCAFE
