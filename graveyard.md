@@ -175,3 +175,10 @@ For a while I had two different text-based serialization formats.
 The first was very basic and focused on just representing Statements as simply as possible.
 The other allowed for repeating Entities and Attributes easily, generating random IDs, and allowed using prefixes to shorten input.
 I've decided to combine the two formats for the sake of simplicity.
+
+### Having a Ligature HTTP spec
+
+I originally thought that HTTP would be the main way that people work with Ligature.
+This might be true, but for now I've decided to just have each application solve this problem
+in a way that makes sense for the specific application.
+Later I can revisit this once I have more experience with using Ligature.
