@@ -4,6 +4,11 @@ Wander is a scripting language for working with knowledge graphs in Ligature.
 Wander tries to combine ideas from modern general purpose languages (mainly Rust, Scala, and Koka)
 while focusing just on what's needed for working with knowledge graphs instead of being a general purpose language.
 
+## Status
+
+Work on Wander is still in early days.
+Expect changes and some differences between this document and implementations for the time being.
+
 ## Goals of Wander
  - be a small and easy to learn language for most people with any scripting background and some interest in knowledge graphs
  - make heavy use of streams (no manual loops), expressions, and pattern matching to solve problems
@@ -18,12 +23,9 @@ Ligature is different from many other languages because it supports only a set n
 User defined types aren't supported since the main goal of Wander is to work with Ligature's knowledge graphs.
 For the most part types are borrowed from Ligature and only a couple of new types are added.
 
-Currently Wander can be considered a Stongly typed dynamic language.
-In the future I plan on investigating types more.
-
 ### Types from Ligature
 
- * Integer - a signed 64-bit integer
+ * Integer - a signed 64-bit integer (Java's long or Rust's i64)
   * 1
   * -20
  * String - a UTF-8 string, that follows the definition of a JSON string
@@ -36,17 +38,13 @@ In the future I plan on investigating types more.
  * Identifier - Identifiers are wrapped in angle braces, just like lig
   * <hello>
   * <https://ligature.dev>
- * Statement - Statements must be wrapped in back ticks, for a set of Statements place a newline between Statements
-  * `<a> <b> 6`
-  * `<a> <b> <c>
-  <d> <e> <f>`
 
 ### Wander types not in Ligature
 
  * Boolean
- * Closures
+ * Lambdas
  * Sequences/Streams
- * Dataset - an in-memory Dataset
+ * Graphs - an in-memory Dataset that acts like a mutable, non-transactional Dataset
 
 ## Keywords
 
@@ -60,6 +58,7 @@ This list is likely to change but here is the current list of keywords.
  * else
  * true
  * false
+ * nothing
 
 ## Names
 
@@ -71,12 +70,45 @@ A valid identifier starts with a-z, A-Z, or _ and then includes zero of more cha
 [a-zA-Z_][a-zA-Z0-9_]*
 ```
 
+## Results
+
+The main purpose of Wander is to produce a value as the result of a script.
+This result can be as simple as a single value, but more likely it will involve building a table or graph of result values.
+Wander uses it's internal Graph type to represent both table and graph results in the UI.
+
 ## Tuples
+
+Tuples are an experimental feature in Wander.
 
 ```wander
 (1 2 3)
 (<a> <b> <c>)
 ()
+```
+
+## Sequences
+
+Sequences are an experimental feature in Wander.
+
+```wander
+[1 2 3]
+[<a> <b> <c>]
+[]
+```
+
+## Graphs
+
+Graphs are an experimental feature in Wander.
+
+Create a graph by calling the `graph()` function.
+See the list of functions that work with graphs below.
+
+## Maps
+
+Maps are an experimental feature in Wander.
+
+```wander
+["key": "value" <key>: 56]
 ```
 
 ## Comments
@@ -168,9 +200,22 @@ But the idea is that you normally won't do this but pass functions to other func
 
 ### If Expressions
 
+If expressions represent a choice between various blocks of code to run.
+In Wander all if expressions are required to have both an `if` and `else` branch.
+Optionally zero or more `elsif` branches can exist between them.
+`if` and `elsif` cases accept a condition expression that must result in a boolean value.
+
 ```wander
 let five = if true 5 else 6
-if eq(five 5) 5 elsif eq(five 6) 
+if eq(five 5) 5 elsif eq(five 6) 6 else 7
+if eq(five 5) {
+  5
+} elsif eq(five 6) {
+  6
+} else {
+  let result = 7
+  result
+}
 ```
 
 ### Match Expressions
@@ -248,4 +293,16 @@ matches
 beginsWith
 
 endsWith
+
+### Sequence Functions
+
+#### each
+
+Performs a give task on each element in a Seq.
+
+```wander
+each([1 2 3] { x -> log(x) })
+```
+
+#### filter
 
