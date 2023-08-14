@@ -5,6 +5,8 @@
 This document exists as a catalog of some ideas that have been experimented with and eventually were decided against
 regarding the design of Ligature.
 
+I started this document before I started doing more formal ADRs, so this document can be considered retired.
+
 ### Implementing RDF
 
 At various times Ligature was much closer to being a standard RDF implementation.

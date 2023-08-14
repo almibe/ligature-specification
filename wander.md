@@ -1,7 +1,7 @@
 # Wander
 
 Wander is a scripting language for working with knowledge graphs in Ligature.
-Wander tries to combine ideas from modern general purpose languages (mainly Rust, Scala, and Koka)
+Wander tries to combine ideas from modern general purpose languages,
 while focusing just on what's needed for working with knowledge graphs instead of being a general purpose language.
 
 ## Status
@@ -44,7 +44,7 @@ For the most part types are borrowed from Ligature and only a couple of new type
  * Boolean
  * Lambdas
  * Sequences/Streams
- * Graphs - an in-memory Dataset that acts like a mutable, non-transactional Dataset
+ * Graphs - an in-memory Dataset that acts like a non-transactional Dataset
 
 ## Keywords
 
@@ -54,7 +54,6 @@ This list is likely to change but here is the current list of keywords.
 
  * let
  * if
- * elsif
  * else
  * true
  * false
@@ -78,54 +77,53 @@ Wander uses it's internal Graph type to represent both table and graph results i
 
 ## Tuples
 
-Tuples are an experimental feature in Wander.
+A tuple is an ordered collection of values.
+They are wrapped in parentheses.
+Tuples are an ordered list of values.
+They are wrapped in parenthesises.
+They are hetrogenous, meaning that they can contain different types and each slot of a tuple is assigned a type.
+This is different than sequences mentioned below which are homogenous, the entire seqeunce contains only one type.
+(NOTE: The above isn't enforced yet, but is planned.)
 
 ```wander
-(1 2 3)
-(<a> <b> <c>)
-()
+() -- empty tuple
+(1 2 true "3") -- tuple of type (int int bool string)
+((1) (true)) -- a tuple containing two tuples, the first containing the integer `1` and the second `true`
+(("a") 4 ((false ()))) -- more nested tuple schenanigans
 ```
 
 ## Sequences
 
-Sequences are an experimental feature in Wander.
+Sequences are similar to lists or vectors in other languages.
+They are an ordered list of items of the same type.
 
 ```wander
-[1 2 3]
-[<a> <b> <c>]
-[]
+[1 2 3]            -- A Sequence of Integers
+[<a> <b> <c>]      -- A Sequence of Identifiers
+[]                 -- An empty Sequence
+[[1] [] [45 -23]]  -- A Sequence of Sequences of Integers
 ```
 
 ## Graphs
 
-Graphs are an experimental feature in Wander.
-
-Create a graph by calling the `graph()` function.
+Create a graph by calling the `graph()` function or using the `graph` token transformer.
 See the list of functions that work with graphs below.
-
-## Maps
-
-Maps are an experimental feature in Wander.
-
-```wander
-["key": "value" <key>: 56]
-```
 
 ## Comments
 
 Comments in Wander are marked by `--` and continue until the end of a line.
 
-`let x = 5 -- bind the value 5 to x`
+`24601 -- what does this even mean?`
 
-## Let Statements
+## Let Expressions
 
-Let statements allow a user to bind a value to a name within the current scope.
+Let expressions allow a user to bind a value to a name within the current scope.
 
-`let x = 5`
+`let prisonerNumber = 24601 -- ohh`
 
 ## Expressions
 
-Everything other than let statements in Wander can be viewed as an expression.
+Everything in Wander can be viewed as an expression.
 By expression I mean they result in a value.
 
 ## Scopes
@@ -134,7 +132,7 @@ In Wander a scope is wrapped in `{}` and acts as an expression that is evaluated
 Scopes are also used for scoping variables.
 See a small example below.
 
-```
+```wander
 let x = 5 -- x is now 5 at the top scope
 
 let y = {   -- create a new scope
@@ -179,7 +177,7 @@ The main thing that functions will add will be overloading, but there are also o
 ## A Note on Operators
 
 Currently, Wander doesn't really support operators.
-It's basically just the = used in let statements.
+It's basically just the = used in let statements and the forward operator >>.
 This might change but for now I'm trying to avoid them.
 This means that everywhere in a normal C-style language you'd use an operator in Wander you call a function.
 
@@ -202,15 +200,15 @@ But the idea is that you normally won't do this but pass functions to other func
 
 If expressions represent a choice between various blocks of code to run.
 In Wander all if expressions are required to have both an `if` and `else` branch.
-Optionally zero or more `elsif` branches can exist between them.
-`if` and `elsif` cases accept a condition expression that must result in a boolean value.
+Optionally zero or more `else if` branches can exist between them.
+`if` and `else if` cases accept a condition expression that must result in a boolean value.
 
 ```wander
 let five = if true 5 else 6
-if eq(five 5) 5 elsif eq(five 6) 6 else 7
+if eq(five 5) 5 else if eq(five 6) 6 else 7
 if eq(five 5) {
   5
-} elsif eq(five 6) {
+} else if eq(five 6) {
   6
 } else {
   let result = 7
@@ -222,63 +220,57 @@ if eq(five 5) {
 
 Match Expressions are being considered.
 
-## Closure Calling Syntax, A Little Razzel-Dazzel
+## Modules
 
-Wander tries to be a pretty simple and regular language.
-One piece of syntax sugar in the language is lifted from languages like Koka and Nim
-is the ability to call closures in one of two ways.
+(This hasn't been implemented yet)
 
-Function syntax
+## Forward Operator
 
-```wander
-hello()
-world(2)
-multipleArgs(1 2 3 "Sup" <identifier> false)
-```
-
-Method syntax
+The forward operator is expressed as `>>` and it allows the value on the left to be passed to the function on the right as the last value.
 
 ```
--- closures with zero arguments can't use method syntax...
-hello()
+or(false not(not(true)))        -- true
+true >> not >> not >> or(false) -- true
+```
 
--- the first argument can be on the left of the closure name
--- followed by a period, the closure name, and the remainder of the arguments
-2.world()
-1.multipleArgs(2 3 "Sup" <identifier> false)
+## Token Transforms
 
--- closures can also be included inline in a method call
--- the below line would result in "hello"
-"hello".{ first second -> first }("world")
+Token Transforms allow an easy way to create data structures in Wander.
+
+```
+let g = graph`{
+
+}`
+```
+
+Behind the scenes a Token Transform calls a registered function after tokenizing input.
+
+```
+let g = graph([
+  []
+])
 ```
 
 ## Standard Library
 
 ### Boolean Functions
 
-| Name | Example              | Result |
-| ---- | -------- ----------- | ------ |
-| not  | not(true)            | false  |
-| and  | and(true false true) | false  |
-| or   | or(true false true)  | true   |
+| Name | Signature         | Example         | Result |
+| ---- | ----------------- | --------------- | ------ |
+| not  | bool -> bool      | not(true)       | false  |
+| and  | bool bool -> bool | and(true false) | false  |
+| or   | bool bool -> bool | or(true false)  | true   |
 
 ### Integer Functions
 
-add
-
-sub
-
-mul
-
-div
-
-gt
-
-lt
-
-### Floating Point Functions
-
-...
+| Name | Signature         | Example         | Result |
+| ---- | ----------------- | --------------- | ------ |
+| add  | int int -> int    | add(1 2)        | 3      |
+| sub  | int int -> int    | sub(1 2)        | 3      |
+| mul  | int int -> int    | mul(1 2)        | 3      |
+| div  | int int -> int    | div(1 2)        | 3      |
+| gt   | int int -> bool   | gt(1 2)         | false  |
+| lt   | int int -> bool   | lt(1 2)         | true   |
 
 ### String Functions
 
@@ -295,6 +287,8 @@ beginsWith
 endsWith
 
 ### Sequence Functions
+
+#### at
 
 #### each
 

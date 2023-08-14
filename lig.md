@@ -43,27 +43,65 @@ They contain an Entity, an Attribute, and a Value on a single line.
 <entity:b> <attribute:b> 2345678
 ```
 
-## Copies
+## Nested Syntax
 
-Using the copy character the following DLig
+Nested Syntax lets you expression multiple statements with a single expression.
+For example the following are equvilient.
+
+```
+<a> {
+    <b> <c>
+    <e> ["a" "b"]
+    <f> <g> {
+        <a> [<b> <d>]
+    }
+}
+```
 
 ```
 <a> <b> <c>
-^ <d> ^
-^^ <e>
+<a> <e> "a"
+<a> <e> "b"
+<a> <f> <g>
+<g> <a> <b>
+<g> <a> <d>
 ```
 
-would become the following in Lig
+Nested Syntax provides two additonal features to Lig, entity expansions and value lists.
+
+### Entity Expansions
+
+Entity Expansions allow reusing Entities in multiple statements.
 
 ```
-<a> <b> <c>
-<a> <d> <c>
-<a> <d> <e>
+<entity> {
+    <attribute1> "value1"
+    <attribute2> "value2"
+}
 ```
 
-Using a copy character in the first Statement of a file will result in an error.
+```
+<entity> <attribute1> "value1"
+<entity> <attribute2> "value2"
+```
+
+### Value Lists
+
+Value lists allow repeating Statements with the same Entity and Attribute but differing Values.
+A simple example is below.
+
+```
+<entity> <attribute> ["value1" "value2"]
+```
+
+```
+<entity> <attribute> "value1"
+<entity> <attribute> "value2"
+```
 
 ## Prefix Shortening
+
+*This hasn't been implemented and will likely change or could be removed*
 
 Ligature's approach to prefix shortening is similar to Turtle with some syntax changes, and currently there is no support for base.
 At the top of a DLig file you can list a several prefixes.
@@ -99,9 +137,13 @@ Below is some pseudo-ebnf for lig.
 At some point I need to make this a little more formal and follow ebnf more strictly.
 
 ```
-ligDocument       ::= statement*
-statement         ::= IDENTIFIER IDENTIFIER value
-value             ::= IDENTIFIER | INTEGER_LITERAL | STRING_LITERAL | BYTES_LITERAL
+ligDocument       ::= expression*
+expression        ::= IDENTIFIER (attributeValue | entityExpansion)
+attributeValue    ::= IDENTIFIER valueExpression
+entityExpanion    ::= '{' attributeValue* '}'
+valueExpression   ::= value | valueList
+value             ::= IDENTIFIER | INTEGER_LITERAL | STRING_LITERAL | BYTES_LITERAL | expression
+valueList         ::= '[' value* ']'
 
 IDENTIFIER      ::= <[a-zA-Z_][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;%=]*>
 INTEGER_LITERAL ::= [0-9]+
