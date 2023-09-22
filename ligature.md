@@ -1,7 +1,9 @@
-# LIGATURE
+# Ligature
 
 ## Introduction
 Ligature is an open source knowledge graph.
+It is made up of the Ligature data model, implementations of that data model,
+the Wander programming language, and related software and data projects.
 
 ## Data Model
 Ligature tries to have a very minimal data model.
@@ -21,15 +23,17 @@ Statement { entity: Identifier, attribute: Identifier, value: Value }
 ```
 
 ### Datasets
-A dataset in Ligature is a named collection of statements.
-Valid dataset names are currently groups of characters that include `_ a-z A-Z 0-9` that can't start with a number and that are separated by single `/`.
+
+A Dataset in Ligature is a named collection of statements.
+Valid Dataset names are currently groups of characters that include `_ a-z A-Z 0-9` that can't start with a number and that are separated by single `/`.
 This naming convention is likely to change.
-Even though dataset names might seem like they nest (`test/test` looks like it is under `test`) this isn't the case.
-A dataset is its own unique entity and stands alone from all other datasets.
-Also, datasets are very different from named graphs in RDF.
-For example with named graphs blank nodes are shared across graphs in a dataset, but in datasets blank nodes are unique to their dataset.
+Even though Dataset names might seem like they nest (`test/test` looks like it is under `test`) this isn't the case.
+A Dataset is its own unique entity and stands alone from all other Datasets.
+Also, Datasets are very different from named graphs in RDF.
+For example with named graphs blank nodes are shared across graphs in a Dataset, but in datasets blank nodes are unique to their Dataset.
 
 ### Statement
+
 A Statement is tuple of an Entity, an Attribute, and a Value.
 A Value can be either an Entity or a Literal.
 
@@ -46,26 +50,33 @@ Below is the regular expression that expresses what a valid Identifier is.
 ```
 
 ### Entity
+
 An Entity is something we can make Statements about.
 An Entity by itself is not very interesting,
 and we know nothing meaningful about an Entity by itself except for its Identifier.
 We can only know things about Entities based on the Statements that exist that describe that Entity.
 
 ### Attribute
+
 An Attribute is a named relationship between an Entity and a Value.
 
 ### Value
+
 A Value can be either a Literal or an Entity.
 
 ### Literals
+
 Literals in Ligature represent an immutable value.
 Several types are currently supported with the possibility to add more.
 
 #### String Literal
+
 A UTF-8 encoded string.
 
 #### Integer Literal
+
 A 64-bit signed integer.
 
 #### Bytes Literal
+
 An array of bytes.

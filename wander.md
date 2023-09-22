@@ -10,20 +10,14 @@ Work on Wander is still in early days.
 Expect changes and some differences between this document and implementations for the time being.
 
 ## Goals of Wander
- - be a small and easy to learn language for most people with any scripting background and some interest in knowledge graphs
+
+ - be a small and easy to learn language for most people with any scripting background
  - make heavy use of streams (no manual loops), expressions, and pattern matching to solve problems
- - support all features SPARQL that make sense outside of the realm of RDF
  - support immutability and functional concepts while not worrying about be purely functional
  - provide a variety of options for handling the output of a script (tables, json, csv, visualizations)
  - be easy to implement and understand
 
-## Types
-
-Ligature is different from many other languages because it supports only a set number of types.
-User defined types aren't supported since the main goal of Wander is to work with Ligature's knowledge graphs.
-For the most part types are borrowed from Ligature and only a couple of new types are added.
-
-### Types from Ligature
+## Literal Types
 
  * Integer - a signed 64-bit integer (Java's long or Rust's i64)
   * 1
@@ -38,13 +32,10 @@ For the most part types are borrowed from Ligature and only a couple of new type
  * Identifier - Identifiers are wrapped in angle braces, just like lig
   * <hello>
   * <https://ligature.dev>
-
-### Wander types not in Ligature
-
  * Boolean
  * Lambdas
  * Sequences/Streams
- * Graphs - an in-memory Dataset that acts like a non-transactional Dataset
+ * Records
 
 ## Keywords
 
@@ -58,6 +49,10 @@ This list is likely to change but here is the current list of keywords.
  * true
  * false
  * nothing
+ * when
+ * schema
+ * enum
+ * trait
 
 ## Names
 
@@ -104,10 +99,23 @@ They are an ordered list of items of the same type.
 [[1] [] [45 -23]]  -- A Sequence of Sequences of Integers
 ```
 
-## Graphs
+## Records
 
-Create a graph by calling the `graph()` function or using the `graph` token transformer.
-See the list of functions that work with graphs below.
+Records are a data structure that holds key value pairs where the key is a string of characters defined by 
+
+```regex
+[a-zA-Z_][a-zA-Z0-9_]*
+```
+
+while the value can be any Wander value.
+Each value in a record can be of a different type and this is represented in the type system.
+The following code creates a record with 3 rows that contain Ints, a row called color that contains a byte array,
+and a row named label that contains the string "You".
+
+```wander
+let location = ( x: 1 y: 5 z: 10 color: 0xFFFFFF label: "You" )
+-- location has the type Record(x::Int y::Int z::Int color::Bytes label::String)
+```
 
 ## Comments
 
@@ -149,16 +157,16 @@ Scope 0 contains "native functions" these are functions that the user didn't def
 Scope 1 contains the main script.
 Scopes 2 and up are all defined by the user.
 
-## Closures
+## Lambdas
 
-Wander supports closures.
-Closures are treated like a normal value and can be assigned to a variable, passed to a function, or returned from a function.
+Wander supports Lambdas.
+Lambdas are treated like a normal value and can be assigned to a variable, passed to a function, or returned from a function.
 A very basic example is:
 
 ```
 let five = { -> 5 } -- assign a closure with no arguments to the name five
 five()              -- call the closure, results in 5
-let double = { x -> mult(x x) } -- define a closure with a single argument
+let double = { x -> mult(2 x) } -- define a closure with a single argument
 let ten = double(five())
 let immediatelyFive = { -> 5 }() -- define and immediately call a closure
 
@@ -170,8 +178,8 @@ let middle = { first second third -> second } -- a closure with three arguments
 ## A Note on Functions
 
 Wander doesn't currently support "normal" function declarations.
-Right now only closures are supported.
-I'm currently going to see how far only supporting closures get us, and if they are too limited functions will be added.
+Right now only Lambdas are supported.
+I'm currently going to see how far only supporting Lambdas get us, and if they are too limited functions will be added.
 The main thing that functions will add will be overloading, but there are also other ways to potentially handle that.
 
 ## A Note on Operators
@@ -192,7 +200,6 @@ or
 `add(1 2 3 4 5 6 7 8 9)`
 
 But the idea is that you normally won't do this but pass functions to other functions.
-
 
 ## Conditionals
 
@@ -219,6 +226,11 @@ if eq(five 5) {
 ### Match Expressions
 
 Match Expressions are being considered.
+
+## Namespaces
+
+Functions and values can be namespaced.
+Namespaces start with a capital letter by convention.
 
 ## Modules
 
