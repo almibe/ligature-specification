@@ -40,6 +40,22 @@ Expect changes and some differences between this document and implementations fo
  * Records
   * { x = 5, y = "Hello" }
 
+There are also two special kinds of literals that are a little more complicated and need some explaination.
+
+### Statement Literals
+
+Ligature's Statements can be expressed as literals in Wander.
+They should always be wrapped in `()` and you must provide literals for all three parts of the Statement.
+
+```wander
+(`a` `b` `c`), -- a statement literal
+`a` `b` `c`,   -- a syntax error
+a = `a`,
+(a `b` `c`),   -- a syntax error, Entity is a Name and not an Identifier
+```
+
+### Dataset Literals
+
 ## Keywords
 
 Ligature tries to have a minimal number of keywords.
