@@ -1,52 +1,37 @@
 # Ligature
 
 ## Introduction
-Ligature is an open source knowledge graph.
+
+Ligature is an libre semantic network.
 It is made up of the Ligature data model, implementations of that data model,
 the Wander programming language, and related software and data projects.
 
 ## Data Model
+
 Ligature tries to have a very minimal data model.
 Currently, Ligature only has a handful of data types that are supported.
 
 ```
-Dataset { dataset_name: DatasetName, statements: Statement* }
-DatasetName { name: String }
-Identifier { id: String }
-Value {
-    Identifier { value: Identifier } |
-    StringLiteral { value: String } |
-    IntegerLiteral { value: i64 } |
-    ByteArray { value: [u8] }
-}
-Statement { entity: Identifier, attribute: Identifier, value: Value }
+Identifier = { value: string }
+Value =
+    | Identifier { value: Identifier }
+    | StringLiteral { value: string }
+    | IntegerLiteral { value: bigint }
+    | Bytes { value: u8[] }
+Statement = { entity: Identifier, attribute: Identifier, value: Value }
+Network = { statements: Statement[] }
 ```
-
-### Datasets
-
-A Dataset in Ligature is a named collection of statements.
-Valid Dataset names are currently groups of characters that include `_ a-z A-Z 0-9` that can't start with a number and that are separated by single `/`.
-This naming convention is likely to change.
-Even though Dataset names might seem like they nest (`test/test` looks like it is under `test`) this isn't the case.
-A Dataset is its own unique entity and stands alone from all other Datasets.
-Also, Datasets are very different from named graphs in RDF.
-For example with named graphs blank nodes are shared across graphs in a Dataset, but in datasets blank nodes are unique to their Dataset.
-
-### Statement
-
-A Statement is tuple of an Entity, an Attribute, and a Value.
-A Value can be either an Entity or a Literal.
 
 ### Identifiers
 
-The definition of a valid Identifier is used for both Entity identifiers and Attribute names.
+Identifiers are used to refer to a concept or individual object in Ligature.
 Currently, a valid Identifier is a string that starts with either an underscore or a character from a-z or A-Z or 0-9,
 and is followed any number of characters that are valid in URLs.
 This will probably be revisited at some point but initially I think this will work well for most uses.
 Below is the regular expression that expresses what a valid Identifier is.
 
 ```regexp
-[a-zA-Z0-9_][a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=]*
+^[a-zA-Z0-9-._~:/?#\[\]@!$&'()*+,;%=\x{00A0}-\x{D7FF}\x{F900}-\x{FDCF}\x{FDF0}-\x{FFEF}\x{10000}-\x{1FFFD}\x{20000}-\x{2FFFD}\x{30000}-\x{3FFFD}\x{40000}-\x{4FFFD}\x{50000}-\x{5FFFD}\x{60000}-\x{6FFFD}\x{70000}-\x{7FFFD}\x{80000}-\x{8FFFD}\x{90000}-\x{9FFFD}\x{A0000}-\x{AFFFD}\x{B0000}-\x{BFFFD}\x{C0000}-\x{CFFFD}\x{D0000}-\x{DFFFD}\x{E1000}-\x{EFFFD}]+$
 ```
 
 ### Entity
@@ -75,8 +60,19 @@ A UTF-8 encoded string.
 
 #### Integer Literal
 
-A 64-bit signed integer.
+An unsized, signed integer.
+This is called a BigInt in most programming languages.
 
 #### Bytes Literal
 
 An array of bytes.
+
+### Statement
+
+A Statement is a triple made up of an Entity, an Attribute, and a Value.
+Both the Entity and Attribute are represented by an Identifier.
+A Value can be either an Identifier or a Literal.
+
+### Network
+
+A Network in Ligature is a collection of statements.

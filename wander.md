@@ -1,6 +1,8 @@
 # Wander
 
 Wander is a scripting language for working with knowledge graphs in Ligature.
+It takes inspiration from several programming paradigms including functional programming,
+logic programming, and declarative programming.
 While Wander's focus is on working with Ligature it can be used as a general scripting language as well.
 
 ## Status
@@ -10,62 +12,40 @@ Expect changes and some differences between this document and implementations fo
 
 ## Goals of Wander
 
- - be a small and easy to learn language for most people with any scripting background
- - make heavy use of streams (no manual loops), expressions, and pattern matching to solve problems
- - support immutability and functional concepts while not worrying about be purely functional
- - provide a variety of options for handling the output of a script (tables, json, csv, visualizations)
- - be easy to implement and understand
+ - be a small (no keywords, no user defined types or functions*) and easy to learn language
+ - make heavy use of iterators (no manual loops), expression piping, and pattern matching to solve problems
+ - be easy to implement and also provide tooling for
+
+* Note: You can't define functions in Wander, but you can define functions in a host language and expose them to Wander
 
 ## Literal Types
 
- * Integer - a signed 64-bit integer (Java's long or Rust's i64)
-  * 1
+ * Int - a signed, unbound Integer value, similar to a BigInt in most programming langauge
+  * 0
   * -20
- * String - a UTF-8 string, that follows the definition of a JSON string
+ * String - a UTF-8 string, that follows the encoding definition of a JSON string
   * "Hello"
-  * "Hello\tWorld"
- * Byte Array - an array of bytes
-  * 0xF0
-  * 0x48EF120A59
- * Identifier - Identifiers are wrapped in back ticks, just like lig
+  * "Hello\tWorld\n"
+ * Identifier - Identifiers are wrapped in back ticks, just like in Ligature
   * \`hello\`
   * \`https://ligature.dev\`
- * Boolean
-  * true
-  * false
- * Lambdas
-  * \x -> x
  * Arrays
   * [1, 2, "Hello"]
  * Records
   * { x = 5, y = "Hello" }
+ * Networks
+  * { \`a\` \`b\` \`c\`, \`five\` \`=\` 5 }
 
-There are also two special kinds of literals that are a little more complicated and need some explaination.
+### Networks
 
-### Statement Literals
-
-Ligature's Statements can be expressed as literals in Wander.
-They should always be wrapped in `()` and you must provide literals for all three parts of the Statement.
+Network literals define a set of Statements that are treated as a collection.
 
 ```wander
-(`a` `b` `c`), -- a statement literal
-`a` `b` `c`,   -- a syntax error
-a = `a`,
-(a `b` `c`),   -- a syntax error, Entity is a Name and not an Identifier
+{
+  `a` `b` `c`,
+  `b` `c` `d`
+}
 ```
-
-### Dataset Literals
-
-## Keywords
-
-Ligature tries to have a minimal number of keywords.
-Keywords are names that users cannot use to define bindings.
-This list is likely to change but here is the current list of keywords.
-
- * true
- * false
- * nothing
- * when
 
 ## Names
 
@@ -76,12 +56,6 @@ A valid identifier starts with a-z, A-Z, or _ and then includes zero of more cha
 ```regex
 [a-zA-Z_][a-zA-Z0-9_]*
 ```
-
-## Results
-
-The main purpose of Wander is to produce a value as the result of a script.
-This result can be as simple as a single value, but more likely it will involve building a table or graph of result values.
-Wander uses it's internal Graph type to represent both table and graph results in the UI.
 
 ## Arrays
 
@@ -102,16 +76,6 @@ Records are a data structure that holds key value pairs where the key is a strin
 
 ```regex
 [a-zA-Z_][a-zA-Z0-9_]*
-```
-
-while the value can be any Wander value.
-Each value in a record can be of a different type and this is represented in the type system.
-The following code creates a record with 3 rows that contain Ints, a row called color that contains a byte array,
-and a row named label that contains the string "You".
-
-```wander
-location = { x = 1, y = 5, z = 10, color = 0xFFFFFF, label = "You" }
--- location has the type Record(x::Int y::Int z::Int color::Bytes label::String)
 ```
 
 ## Comments
@@ -154,31 +118,6 @@ Scope 0 contains "native functions" these are functions that the user didn't def
 Scope 1 contains the main script.
 Scopes 2 and up are all defined by the user.
 
-## Lambdas
-
-Wander supports Lambdas.
-Lambdas are treated like a normal value and can be assigned to a variable, passed to a function, or returned from a function.
-A very basic example is:
-
-```
-five = \ _ -> 5,              -- assign a closure with no arguments to the name five
-five (),                      -- call the closure, results in 5
-double = \x -> mult 2 x,  -- define a closure with a single argument
-ten = double (five ()),
-middle = \first second third -> second -- a closure with three arguments
-```
-
-## A Note on Functions
-
-Wander doesn't currently support "normal" function declarations.
-Right now only Lambdas are supported.
-I'm currently going to see how far only supporting Lambdas get us, and if they are too limited functions will be added.
-The main thing that functions will add will be overloading, but there are also other ways to potentially handle that.
-
-## When Expressions
-
-TODO
-
 ## Pipe Operator
 
 The pipe operator is expressed as `|` and it allows the value on the left to be passed to the function on the right as the last value.
@@ -187,53 +126,3 @@ The pipe operator is expressed as `|` and it allows the value on the left to be 
 (or false (not(not(true))))  -- true
 true | not | not | or false  -- true
 ```
-
-## Standard Library
-
-### Boolean Functions
-
-| Name | Signature         | Example         | Result |
-| ---- | ----------------- | --------------- | ------ |
-| not  | bool -> bool      | not(true)       | false  |
-| and  | bool bool -> bool | and(true false) | false  |
-| or   | bool bool -> bool | or(true false)  | true   |
-
-### Integer Functions
-
-| Name | Signature         | Example         | Result |
-| ---- | ----------------- | --------------- | ------ |
-| add  | int int -> int    | add(1 2)        | 3      |
-| sub  | int int -> int    | sub(1 2)        | 3      |
-| mul  | int int -> int    | mul(1 2)        | 3      |
-| div  | int int -> int    | div(1 2)        | 3      |
-| gt   | int int -> bool   | gt(1 2)         | false  |
-| lt   | int int -> bool   | lt(1 2)         | true   |
-
-### String Functions
-
-eq
-
-cat
-
-substring
-
-matches
-
-beginsWith
-
-endsWith
-
-### Sequence Functions
-
-#### at
-
-#### each
-
-Performs a give task on each element in a Seq.
-
-```wander
-each([1 2 3] { x -> log(x) })
-```
-
-#### filter
-
