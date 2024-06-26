@@ -1,9 +1,11 @@
 # Wander
 
-Wander is a scripting language for working with knowledge graphs in Ligature.
+This document assumes you are familiar with Ligature's data model and text format.
+
+Wander is a scripting language for working with Ligature's Semantic Networks.
 It takes inspiration from several programming paradigms including functional programming,
 logic programming, and declarative programming.
-While Wander's focus is on working with Ligature it can be used as a general scripting language as well.
+While Wander's focus is on working with Ligature it can be used as a general purpose scripting language as well.
 
 ## Status
 
@@ -16,7 +18,7 @@ Expect changes and some differences between this document and implementations fo
  - make heavy use of iterators (no manual loops), expression piping, and pattern matching to solve problems
  - be easy to implement and also provide tooling for
 
-* Note: You can't define functions in Wander, but you can define functions in a host language and expose them to Wander
+* Note: You can't define functions in Wander, but you can define functions in a host language and expose them to Wander.
 
 ## Literal Types
 
@@ -35,17 +37,6 @@ Expect changes and some differences between this document and implementations fo
   * { x = 5, y = "Hello" }
  * Networks
   * { \`a\` \`b\` \`c\`, \`five\` \`=\` 5 }
-
-### Networks
-
-Network literals define a set of Statements that are treated as a collection.
-
-```wander
-{
-  `a` `b` `c`,
-  `b` `c` `d`
-}
-```
 
 ## Names
 
@@ -72,57 +63,53 @@ They are an ordered list of items.
 
 ## Records
 
-Records are a data structure that holds key value pairs where the key is a string of characters defined by 
+Records are a data structure that holds key-value pairs where the key is an Identifier and the value is an Identifer, Int, Bool, or String.
 
-```regex
-[a-zA-Z_][a-zA-Z0-9_]*
+```wander
+{ `digit` = 5, `text` = "five" }
 ```
-
-## Comments
-
-Comments in Wander are marked by `--` and continue until the end of a line.
-
-`24601 -- what does this even mean?`
-
-## Let Expressions
-
-Let expressions allow a user to bind a value to a name within the current scope.
-
-`prisonerNumber = 24601 -- ohh`
 
 ## Expressions
 
 Everything in Wander can be viewed as an expression.
 By expression I mean they result in a value.
 
-## Scopes
+## Call Chaining/Uniform Function Call Syntax
 
-In Wander a scope is wrapped in `()` and acts as an expression that is evaluated.
-Scopes are also used for scoping variables.
-See a small example below.
+Often you want to use the result of one expression inside of another expression.
+
+```
+(or false (not(not(true)))) -- true
+```
+
+Some people (myself included) find reading code like this difficult.
+To help with this languages like Wander provide an alternative syntax for calling functions
+that encourages thinking about a pipeline of transformations.
+In Wander this is done with the `.` operator.
+
+Below are two examples of calling a function normally and then using the `.` operator.
 
 ```wander
-x = 5, -- x is now 5 at the top scope
+-- examples with single argument function
+not true, -- false
+true.not, -- false
 
-y = (    -- create a new scope
-  x = 6, -- in this scope x is 6
-  x      -- return 6
-),       -- end scope
-
-y        -- this will return 6
+-- examples with multiple argument function
+or false true, -- true
+false.or true, -- true
 ```
 
-A Ligature script is made up of several scopes.
-The first two are created for the user and all others are created by the user.
-Scope 0 contains "native functions" these are functions that the user didn't define.
-Scope 1 contains the main script.
-Scopes 2 and up are all defined by the user.
-
-## Pipe Operator
-
-The pipe operator is expressed as `|` and it allows the value on the left to be passed to the function on the right as the last value.
+This can be expanded to change calls.
+Below is the same expression written on one line and broken up into multiple lines.
 
 ```
-(or false (not(not(true))))  -- true
-true | not | not | or false  -- true
+true.not.not.or false, -- true
+
+true
+  .not
+  .not
+  .or false,           -- true
+
 ```
+
+I personally find the last example easier to read and edit than the initial example I started this section with.
